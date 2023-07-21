@@ -42,3 +42,20 @@ export const getFrase = async (req: Request, res: Response) => {
         res.json("Frase não encontrada")
     }
 }
+
+export const updateFrase = async (req: Request, res: Response) => {
+    let { id } = req.params
+
+    let {autor, txt} = req.body
+
+    let frase = await Frase.findByPk(id)
+    if (frase){
+        frase.autor = autor
+        frase.txt = txt
+        await frase.save()
+
+        res.json({frase})
+    } else {
+        res.json("Não encontrado")
+    }
+}
