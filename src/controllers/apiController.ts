@@ -19,5 +19,26 @@ export const createFrase = async (req: Request, res: Response) => {
     let {autor, txt } = req.body
 
     let newFrase = await Frase.create({autor, txt})
+    res.status(201)
+
     res.json({id: newFrase.id, autor, txt })
+}
+
+export const listFrase = async (req: Request, res: Response) => {
+    
+    let list = await Frase.findAll()
+    
+    res.json({list})
+}
+
+export const getFrase = async (req: Request, res: Response) => {
+    let {id} = req.params
+
+    let frase = await Frase.findByPk(id)
+    if(frase){
+        res.json({frase})
+    } else {
+        res.status(400)
+        res.json("Frase não encontrada")
+    }
 }
